@@ -1,0 +1,71 @@
+//////////////////payment controller//////////////////////////
+var pay = require('../model/payment');
+
+exports.getpayments = function(req, res) {
+    pay.getallpayments(function(err,  payments) {
+      if (err)
+        res.send(err);
+      res.send( payments);
+    });
+  };
+
+
+  exports.insertpaymentdetails = function(req, res) {
+    
+    var new_task = req.body;
+  
+    
+     if(!new_task.paymentId || !new_task.paymentDate|| !new_task.orderId ||  !new_task.payment ||!new_task.UPIMode){
+        res.status(400).send({ error:true, message: 'Please provide task/status' });
+      }
+     else{
+      pay.createpaymentdetails(new_task, function(err, payments) {
+        if (err)
+        res.send(err);
+      res.json(payments);
+      });
+    }
+  };
+  
+  exports.getdetailsbyid = function(req, res) {
+    pay.getpaymentbyid(req.params.orderId, function(err, payments) {
+      if (err)
+        res.send(err);
+      res.json(payments);
+    });
+  };
+  
+  exports.updatepaymentdetails = function(req, res) {
+    var up= (req.body)
+    console.log("Request Body:"+req.body.paymentDate);
+    
+    pay.updateById1(req.params.orderId,up,function(err, payments) {
+      if (err)
+        res.send(err);
+      res.json("Payment Details updated");
+    });
+  };
+  
+  exports.removepayment = function(req, res) {
+    pay.remove1( req.params.orderId, function(err, payments ){
+      if (err)
+        res.send(err);
+      res.json({ message: 'Payment Not Successful' });
+    });
+  };
+
+  exports.getdetailsgreaterthan = function(req, res) {
+    pay.getpaymentgreaterthan(req.params.greatervalue, function(err, payments) {
+      if (err)
+        res.send(err);
+      res.json(payments);
+    });
+  };
+
+  exports.getdetailssmallerthan = function(req, res) {
+    pay.getpaymentsmallerthan(req.params.smallervalue, function(err, payments) {
+      if (err)
+        res.send(err);
+      res.json(payments);
+    });
+  };
