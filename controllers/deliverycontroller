@@ -15,7 +15,7 @@ exports.insert = function(req, res) {
   
   var new_order = req.body;
 
-  //handles null error 
+  //all values should be inserted into the database
    if(!new_order.DeliveryId|| !new_order.DeliveryDate|| !new_order.OrderId ||  !new_order.Status ){
       res.status(400).send({ error:true, message: 'Please provide details' });
     }
@@ -40,15 +40,15 @@ exports.update = function(req, res) {
   var up= (req.body)
   console.log("Request Body:"+req.body.deliveryId);
   
-  Task.updatedeliverybyid(req.params.deliveryId,up,function(err, Delivery) {
+  Task.updatedeliverybyid(req.params.deliveryId,up,function(err) {
     if (err)
       res.send(err);
-    res.json("updated");
+    res.json("updated Successfully");
   });
 };
 
 exports.remove = function(req, res) {
-  Task.remove( req.params.deliveryId, function(err, delivery ){
+  Task.remove( req.params.deliveryId, function(err){
     if (err)
       res.send(err);
     res.json({ message: 'product out of stock ' });
@@ -73,9 +73,22 @@ exports.getstatuswithdetails = function(req, res) {
 };
 
 exports.getByreturnedorder = function(req, res) {
+  console.log("Requested returned order details :"+req.params.returned);
   Task.getreturndetails(req.params.returned, function(err, Delivery) {
     if (err)
       res.send(err);
     res.json(Delivery);
+  });
+};
+
+
+exports.return = function(req, res) {
+  
+  console.log("Requested delivery id from url:"+req.params.deliveryId);
+  
+  Task.Returnorder(req.params.deliveryId,req.body,function(err) {
+    if (err)
+      res.send(err);
+    res.json("Order Returned Successful");
   });
 };

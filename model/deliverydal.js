@@ -53,7 +53,7 @@ Task.getAlldeliverydetails = function (result) {
             });   
 };
 
-//update any field from delivery on id
+// update any field from delivery on id
 Task.updatedeliverybyid = function(id ,Delivery, result){
   sql.query("UPDATE  Delivery SET  DeliveryDate=?,OrderId=?,Status=?,Accept_Return=? WHERE DeliveryId=?", [Delivery.DeliveryDate,Delivery.OrderId,Delivery.Status,Delivery.Accept_Return,id], function (err, res) {
           if(err) {
@@ -71,7 +71,7 @@ Task.updatedeliverybyid = function(id ,Delivery, result){
 // delete delivery entry
 
 Task.remove = function(deliveryId, result){
-    sql.query("DELETE FROM Delivery WHERE DeliveryId= ?", [deliveryId], function (err, res) {
+    sql.query("DELETE FROM Delivery WHERE DeliveryId = ? ", [deliveryId], function (err, res) {
                 if(err) {
                     console.log("error: ", err);
                     result(null, err);
@@ -110,7 +110,7 @@ Task.getstatusDetails = function (Status, result) {
 
 // getting return order details 
 Task.getreturndetails = function (Accept_Return, result) {
-  sql.query("Select * from Delivery where Accept_Return = ?",Accept_Return, function (err, res) {             
+  sql.query("Select * from Delivery where Accept_Return = ? and Status = 'Done'",Accept_Return, function (err, res) {             
           if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -122,6 +122,18 @@ Task.getreturndetails = function (Accept_Return, result) {
 };
 
 
+//update when customer returns the order
+Task.Returnorder = function(id , result){
+  sql.query("UPDATE  Delivery SET Accept_Return=1 WHERE DeliveryId=? and Status = 'Done'", id, function (err, res) {
+          if(err) {
+                console.log("error: ", err);
+                result(null, err);
+             }
+           else{   
+             result(null,res);
+            }
+    }); 
+};
 
 
 

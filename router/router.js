@@ -21,6 +21,9 @@ module.exports = function(app) {
       .put(deliverycontroller.update)
       .delete(deliverycontroller.remove);
 
+  app.route('/returnorder/:deliveryId')
+      .put(deliverycontroller.return);
+
       ///////////    payment urls ////////////
 
   app.route('/payments')

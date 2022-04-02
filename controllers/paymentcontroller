@@ -16,7 +16,7 @@ exports.getpayments = function(req, res) {
   
     
      if(!new_task.paymentId || !new_task.paymentDate|| !new_task.orderId ||  !new_task.payment ||!new_task.UPIMode){
-        res.status(400).send({ error:true, message: 'Please provide task/status' });
+        res.status(400).send({ error:true, message: 'Something is missing' });
       }
      else{
       pay.createpaymentdetails(new_task, function(err, payments) {
