@@ -1,0 +1,24 @@
+<h1 align="center">ALL ORDERS</h1>
+<button (click) = "allOrders()">ALL ORDERS</button>
+<div *ngIf = "orders_details[0]" >
+<table *ngIf = "orders_details[0]?.length>0" border="2" align="center">
+    <tr>
+        <td>DeliveryId</td>
+        <td>DeliveryDate</td>
+        <td>OrderId</td>
+        <td>Status</td>
+        <td>Accept_Return</td>
+    </tr>
+    <tr  *ngFor = "let obj of orders_details[0] ">
+        <td>{{obj.DeliveryId}}</td>
+        <td>{{obj.DeliveryDate}}</td>
+        <td>{{obj.OrderId}}</td>
+        <td>{{obj.Status}}</td>
+        <td>{{obj.Accept_Return}}</td>
+    </tr>
+</table>
+</div>
+<button (click) = "allOrders()">NextDetails</button>
+
+
+<!-- <router-outlet></router-outlet> -->
