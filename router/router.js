@@ -3,7 +3,7 @@ module.exports = function(app) {
   var deliverycontroller = require('../controllers/deliverycontroller');
   var paymentcontroller = require('../controllers/paymentcontroller')
 
-  app.route('/delivery')
+  app.route('/delivery/:start')
      .get(deliverycontroller.getAll)
      .post(deliverycontroller.insert)
      
@@ -23,6 +23,9 @@ module.exports = function(app) {
 
   app.route('/returnorder/:deliveryId')
       .put(deliverycontroller.return);
+
+  app.route('/delivery1')
+    .get(deliverycontroller.getalljoin)
 
       ///////////    payment urls ////////////
 

@@ -26,7 +26,7 @@ var pay= function(payments){
   
   //getting particular payment details using id
   pay.getpaymentbyid = function (payments, result) {
-          sql.query("Select * from payments where orderId= ? ", payments, function (err, res) {             
+          sql.query("CALL payments_byorderid(?)", payments, function (err, res) {             
                   if(err) {
                     console.log("error: ", err);
                     result(err, null);
@@ -39,7 +39,7 @@ var pay= function(payments){
   
  // getting all payment details
   pay.getallpayments = function (result) {
-          sql.query("Select * from  payments", function (err, res) {
+          sql.query("CALL get_allpayments_details", function (err, res) {
                   if(err) {
                     console.log("error: ", err);
                     result(null, err);
@@ -52,7 +52,7 @@ var pay= function(payments){
   };
   // update any details  
   pay.updateById1 = function(id ,payments, result){
-    sql.query("UPDATE   payments SET    paymentId=?,paymentDate=?,payment=?,UPIMode=? WHERE orderId=?", [payments.paymentId,payments.paymentDate,payments.payment,payments.UPIMode,id], function (err, res) {
+    sql.query("CALL payment_update(?,?,?,?,?)", [payments.paymentId,payments.paymentDate,payments.payment,payments.UPIMode,id], function (err, res) {
             if(err) {
                   console.log("error: ", err);
                   result(null, err);
@@ -68,7 +68,7 @@ var pay= function(payments){
   // delete data from table
   
   pay.remove1 = function(orderId, result){
-      sql.query("DELETE FROM payments WHERE orderId= ?", [orderId], function (err, res) {
+      sql.query("CALL delete_payments(?)", [orderId], function (err, res) {
                   if(err) {
                       console.log("error: ", err);
                       result(null, err);
@@ -81,7 +81,7 @@ var pay= function(payments){
   
 //getting details for amount greater than
 pay.getpaymentgreaterthan = function (payments, result) {
-  sql.query("SELECT * FROM shoppingcart.payments where payment > ?", payments, function (err, res) {             
+  sql.query("CALL payments_greaterthan(?)", payments, function (err, res) {             
           if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -94,7 +94,7 @@ pay.getpaymentgreaterthan = function (payments, result) {
 
 //getting details for payment less than
 pay.getpaymentsmallerthan = function (payments, result) {
-  sql.query("SELECT * FROM shoppingcart.payments where payment < ?", payments, function (err, res) {             
+  sql.query("CALL payments_lessthan", payments, function (err, res) {             
           if(err) {
             console.log("error: ", err);
             result(err, null);

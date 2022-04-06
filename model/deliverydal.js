@@ -12,8 +12,9 @@ var Task = function(Delivery){
     
 // inserting all delivery details 
 
-Task.newdeliverydetails = function (newTask, result) {    
-  sql.query("INSERT INTO  Delivery set ?", newTask, function (err, res) {
+Task.newdeliverydetails = function (newTask, result) { 
+  try{ 
+  sql.query("CALL insert_delivery_details(?)", newTask, function (err, res) {
           if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -22,26 +23,38 @@ Task.newdeliverydetails = function (newTask, result) {
             console.log(res.insertId);
             result(null, res.insertId);
           }
-      });           
+      }); }
+    catch(err){
+      console.log("Data not Inserted")
+    }          
 };
 
 // getting all delivery details for particular id
 Task.getdeliverybyid = function (DeliveryId, result) {
-        sql.query("Select * from Delivery where DeliveryId = ?", DeliveryId, function (err, res) {             
-                if(err) {
-                  console.log("error: ", err);
-                  result(err, null);
-                }
-                else{
-                  result(null, res);     
-                }
-            });   
+  try{
+    sql.query("CALL getbyid_(?)", DeliveryId, function (err, res) {             
+      if(err) {
+        console.log("error: ", err);
+        result(err, null);
+      }
+      else{
+        result(null, res);     
+      }
+  }); 
+  }
+    catch(err){
+        console.log("Data not fetched")
+    }    
+          
+
 };
+
 
 //getting all delivery details 
 
 Task.getAlldeliverydetails = function (result) {
-        sql.query("Select * from Delivery", function (err, res) {
+  try{
+        sql.query("CALL get_all_delivery_details", function (err, res) {
                 if(err) {
                   console.log("error: ", err);
                   result(null, err);
@@ -50,12 +63,15 @@ Task.getAlldeliverydetails = function (result) {
                   console.log('delivery : ', res);  
                   result(null, res);
                 }
-            });   
+            }); }
+    catch(err){
+      console.log("Data not fetched")
+    }  
 };
 
 // update any field from delivery on id
 Task.updatedeliverybyid = function(id ,Delivery, result){
-  sql.query("UPDATE  Delivery SET  DeliveryDate=?,OrderId=?,Status=?,Accept_Return=? WHERE DeliveryId=?", [Delivery.DeliveryDate,Delivery.OrderId,Delivery.Status,Delivery.Accept_Return,id], function (err, res) {
+  sql.query("CALL update_delivery_details(?,?,?,?,?)", [Delivery.DeliveryDate,Delivery.OrderId,Delivery.Status,Delivery.Accept_Return,id], function (err, res) {
           if(err) {
                 console.log("error: ", err);
                 result(null, err);
@@ -71,7 +87,7 @@ Task.updatedeliverybyid = function(id ,Delivery, result){
 // delete delivery entry
 
 Task.remove = function(deliveryId, result){
-    sql.query("DELETE FROM Delivery WHERE DeliveryId = ? ", [deliveryId], function (err, res) {
+    sql.query("CALL delete_delivery_details(?) ", [deliveryId], function (err, res) {
                 if(err) {
                     console.log("error: ", err);
                     result(null, err);
@@ -84,7 +100,7 @@ Task.remove = function(deliveryId, result){
 
 // getting count of status for done and pending
 Task.getstatuscount = function (Status, result) {
-  sql.query("select count(Status) as StatusCount from Delivery where Status = ?", Status, function (err, res) {             
+  sql.query("CALL Count_status(?)", Status, function (err, res) {             
           if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -97,7 +113,7 @@ Task.getstatuscount = function (Status, result) {
 
 //getting status details for done and pending
 Task.getstatusDetails = function (Status, result) {
-  sql.query("SELECT * FROM shoppingcart.Delivery where Status = ?", Status, function (err, res) {             
+  sql.query("CALL Details_status(?)", Status, function (err, res) {             
           if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -110,7 +126,7 @@ Task.getstatusDetails = function (Status, result) {
 
 // getting return order details 
 Task.getreturndetails = function (Accept_Return, result) {
-  sql.query("Select * from Delivery where Accept_Return = ? and Status = 'Done'",Accept_Return, function (err, res) {             
+  sql.query("CALL Accept_return(?)",Accept_Return, function (err, res) {             
           if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -124,18 +140,32 @@ Task.getreturndetails = function (Accept_Return, result) {
 
 //update when customer returns the order
 Task.Returnorder = function(id , result){
-  sql.query("UPDATE  Delivery SET Accept_Return=1 WHERE DeliveryId=? and Status = 'Done'", id, function (err, res) {
+  sql.query("CALL Returned_order_details(?)", id, function (err, res) {
           if(err) {
                 console.log("error: ", err);
                 result(null, err);
              }
            else{   
-             result(null,res);
+                result(null,res);
             }
     }); 
 };
 
+  Task.getbyjoin=function(result){
+    sql.query("CALL join_on_orderid",function (err, res) {
+        
+      if(err) {
+            console.log("error: ", err);
+            result(null, err);
+          }
+          else{
+            result(null, res);
+              }
+          }); 
+    }
 
+
+  
 
 
 

@@ -5,9 +5,16 @@ var Task = require('../model/deliverydal');
 
 exports.getAll = function(req, res) {
   Task.getAlldeliverydetails(function(err, Delivery) {
+    var start  =req.params.start;
+    start = parseInt(start)
+    console.log(start)
+    console.log(start+2)
+    Delivery[0] = Delivery[0].slice(start,start+2)
+
     if (err)
       res.send(err);
     res.send(Delivery);
+   
   });
 };
 
@@ -51,7 +58,7 @@ exports.remove = function(req, res) {
   Task.remove( req.params.deliveryId, function(err){
     if (err)
       res.send(err);
-    res.json({ message: 'product out of stock ' });
+    res.json({ message: 'Details Deleted Successfully' });
   });
 };
 
@@ -86,9 +93,17 @@ exports.return = function(req, res) {
   
   console.log("Requested delivery id from url:"+req.params.deliveryId);
   
-  Task.Returnorder(req.params.deliveryId,req.body,function(err) {
+  Task.Returnorder(req.params.deliveryId,function(err,result) {
     if (err)
       res.send(err);
     res.json("Order Returned Successful");
   });
+  };
+
+exports.getalljoin = function(req, res) {
+  Task.getbyjoin(function(err, delivery){
+       if (err)
+         res.send(err);
+         res.send(delivery);
+       });
 };
