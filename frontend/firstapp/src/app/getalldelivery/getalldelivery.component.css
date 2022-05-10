@@ -1,0 +1,18 @@
+
+.content-table{
+    border-collapse: collapse;
+    margin: 25px 0;  
+    font-size: 0.9em;
+    min-width: 400px;
+}
+.content-table{
+    background-color: #009879;
+    color: azure;
+    text-align: left;
+}
+
+thead{
+    background-color: black;
+    color: white;
+}
+

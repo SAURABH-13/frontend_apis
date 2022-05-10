@@ -1,14 +1,20 @@
 <h1 align="center">ALL ORDERS</h1>
-<button (click) = "allOrders()">ALL ORDERS</button>
-<div *ngIf = "orders_details[0]" >
-<table *ngIf = "orders_details[0]?.length>0" border="2" align="center">
-    <tr>
-        <td>DeliveryId</td>
-        <td>DeliveryDate</td>
-        <td>OrderId</td>
-        <td>Status</td>
-        <td>Accept_Return</td>
-    </tr>
+<button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off" (click) = "allOrders()">ALL ORDERS</button>
+
+<div *ngIf = "orders_details[0]">
+<div class = "table-responsive">
+<table  class="table table-striped table-hover caption-top" *ngIf = "orders_details[0]?.length>0" >
+    <caption>List of users</caption>
+    <thead class="thead-dark">
+        <tr>
+            <th>DeliveryId</th>
+            <th>DeliveryDate</th>
+            <th>OrderId</th>
+            <th>Status</th>
+            <th>Return Orders</th>
+        </tr>
+    </thead>
+    <tbody>
     <tr  *ngFor = "let obj of orders_details[0] ">
         <td>{{obj.DeliveryId}}</td>
         <td>{{obj.DeliveryDate}}</td>
@@ -16,9 +22,42 @@
         <td>{{obj.Status}}</td>
         <td>{{obj.Accept_Return}}</td>
     </tr>
+    </tbody>
 </table>
 </div>
-<button (click) = "allOrders()">NextDetails</button>
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off" (click) = "allOrders()">NextDetails</button>
 
 
-<!-- <router-outlet></router-outlet> -->
+<!-- 
+<div class="table-responsive">
+<table class="table table-striped table-hover align-middle">
+    <thead >
+      <tr>
+        <th scope="col">DeliveryId</th>
+        <th scope="col">DeliveryDate</th>
+        <th scope="col">OrderId</th>
+        <th scope="col">Return Orders</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>  -->

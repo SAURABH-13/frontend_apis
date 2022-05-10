@@ -19,7 +19,7 @@ export class GetalldeliveryComponent{
       this.http.get("http://localhost:3000/delivery/"+this.start).subscribe((orders_details: any) =>{
       this.orders_details = orders_details;
       console.log(orders_details)
-      this.start=this.start+2
+      this.start=this.start+5
     });
 
   }

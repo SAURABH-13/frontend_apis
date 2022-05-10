@@ -20,6 +20,7 @@ import { UpdatedeliveryComponent } from './updatedelivery/updatedelivery.compone
 import { UpdatepymentComponent } from './updatepyment/updatepyment.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     HttpClientModule,
     RouterModule,
+    NgbModule,
 
   ],
   providers: [],

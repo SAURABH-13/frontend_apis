@@ -1,0 +1,109 @@
+'use strict';
+var Task = require('../model/deliverydal');
+
+
+
+exports.getAll = function(req, res) {
+  Task.getAlldeliverydetails(function(err, Delivery) {
+    var start  =req.params.start;
+    start = parseInt(start)
+    console.log(start)
+    console.log(start+5)
+    Delivery[0] = Delivery[0].slice(start,start+5)
+
+    if (err)
+      res.send(err);
+    res.send(Delivery);
+   
+  });
+};
+
+exports.insert = function(req, res) {
+  
+  var new_order = req.body;
+
+  //all values should be inserted into the database
+   if(!new_order.DeliveryId|| !new_order.DeliveryDate|| !new_order.OrderId ||  !new_order.Status ){
+      res.status(400).send({ error:true, message: 'Please provide details' });
+    }
+   else{
+    Task.newdeliverydetails(new_order, function(err, delivery) {
+      if (err)
+      res.send(err);
+    res.json(delivery);
+    });
+  }
+};
+
+exports.getbyid = function(req, res) {
+  Task.getdeliverybyid(req.params.deliveryId, function(err, Delivery) {
+    if (err)
+      res.send(err);
+    res.json(Delivery);
+  });
+};
+
+exports.update = function(req, res) {
+  var up= (req.body)
+  console.log("Request Body:"+req.body.deliveryId);
+  
+  Task.updatedeliverybyid(req.params.deliveryId,up,function(err) {
+    if (err)
+      res.send(err);
+    res.json("updated Successfully");
+  });
+};
+
+exports.remove = function(req, res) {
+  Task.remove( req.params.deliveryId, function(err){
+    if (err)
+      res.send(err);
+    res.json({ message: 'Details Deleted Successfully' });
+  });
+};
+
+exports.getstatus = function(req, res) {
+  Task.getstatuscount(req.params.Status, function(err, Delivery) {
+    if (err)
+      res.send(err);
+    res.json(Delivery);
+  });
+};
+
+
+exports.getstatuswithdetails = function(req, res) {
+  Task.getstatusDetails(req.params.Status, function(err, Delivery) {
+    if (err)
+      res.send(err);
+    res.json(Delivery);
+  });
+};
+
+exports.getByreturnedorder = function(req, res) {
+  console.log("Requested returned order details :"+req.params.returned);
+  Task.getreturndetails(req.params.returned, function(err, Delivery) {
+    if (err)
+      res.send(err);
+    res.json(Delivery);
+  });
+};
+
+
+exports.return = function(req, res) {
+  
+  console.log("Requested delivery id from url:"+req.params.deliveryId);
+  
+  Task.Returnorder(req.params.deliveryId,function(err,result) {
+    if (err)
+      res.send(err);
+    res.json("Order Returned Successful");
+  });
+  };
+
+exports.getalljoin = function(req, res) {
+  Task.getbyjoin(function(err, delivery){
+       if (err)
+         res.send(err);
+         res.send(delivery);
+       });
+};
